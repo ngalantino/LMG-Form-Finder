@@ -1,0 +1,177 @@
+<!-- https://www.w3schools.com/howto/howto_js_collapsible.asp  -Collapsible divs-->
+
+<!-- I don't need help. Just show me all the forms -->
+
+<!-- My insurance has changed since my last visit -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Form Population</title>
+
+<style>
+    /* Style the select element */
+    select {
+      padding: 8px 10px;
+      margin-left: 100px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+      color: #333;
+      width: 200px;
+
+    }
+
+    li {
+        padding: 12px;
+        font-size: 20px;
+        font-family:Verdana, Geneva, Tahoma, sans-serif;
+    }
+
+    .collapsible {
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+        max-height: 0;
+        
+    }
+
+    .collapsible.open {
+        display:block;
+
+    }
+
+    .hidden {
+        display: none !important;
+    }
+  
+
+  </style>
+
+
+</head>
+<body>
+
+
+<form id="formFinder">
+
+    <ol>
+        <li>Are you a new or established patient?</li>
+
+    <div id="stepOneOptions">
+        <label><input type="radio" name="patientType" value="newPatient">I am a new patient.</label>
+        <label><input type="radio" name="patientType" value="establishedPatient">I am an established patient.</label>
+    </div>
+
+    <input type="submit" value="Submit" style="display: block;" id="submitButton">
+
+    <div id="patientTypeCollapsibleDiv" class="collapsible">
+
+        <p>This is my collapsible div.</p>
+
+    </div>
+
+    <div class="hidden" id="stepTwo">
+        <li>Do you have an appointment with a specialist?</li>
+
+    <select name="selectSpecialty" id="selectSpecialty" required class="hidden">
+        <option value="adolescent_pediatrics">Adolescent Pediatrics</option>
+        <option value="gynecology">Gynecology</option>
+        <option value="podiatry">Podiatry</option>
+        
+    </select>
+
+    <input type="submit" value="Submit" style="display: block;" id="stepTwoSubmitButton" class="hidden">
+    </div>
+
+    </ol>
+
+</form>
+
+<script>
+  // Function to populate the form fields
+  function populateForm() {
+
+    // Populate form fields
+    var selectedPatientType;
+    var selectedSpecialistType;
+    var patientTypes = document.getElementsByName('patientType');
+
+    for (var i = 0; i < patientTypes.length; i++) {
+
+        if(patientTypes[i].checked) {
+
+                selectedPatientType = patientTypes[i].value;
+
+        }
+
+    }
+
+    selectedSpecialistType = document.getElementById('selectSpecialty').value;
+    
+    console.log(selectedPatientType);
+    console.log(selectedSpecialistType);
+
+
+  }
+
+  function stepOne() {
+
+    // Collapse div
+    var patientTypeCollapsibleDiv = document.getElementById('patientTypeCollapsibleDiv');
+    patientTypeCollapsibleDiv.style.maxHeight = patientTypeCollapsibleDiv.scrollHeight + "px";
+
+    // Hide step one submit button
+    var button = document.getElementById('submitButton');
+    button.classList.add("hidden");
+
+    // Display step 2
+    var stepTwo = document.getElementById('stepTwo');
+    var dropDown = document.getElementById('selectSpecialty');
+
+    stepTwo.classList.toggle("hidden");
+    dropDown.classList.toggle("hidden");
+
+
+
+
+    var radioButtons = document.getElementById('stepOneOptions');
+
+    radioButtons.classList.add("hidden");
+
+    var stepTwoSubmitButton = document.getElementById('stepTwoSubmitButton');
+
+    stepTwoSubmitButton.classList.toggle("hidden");
+
+  }
+
+  function stepTwo() {
+
+
+
+  }
+
+  // Call the function to populate the form
+  var stepOneButton = document.getElementById('submitButton');
+
+  stepOneButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    populateForm();
+    stepOne();
+  });
+
+  var stepTwoButton = document.getElementById('stepTwoSubmitButton');
+
+  stepTwoButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    stepTwo();
+  })
+
+</script>
+
+</body>
+</html>
